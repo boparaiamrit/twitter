@@ -58,9 +58,11 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 	/**
 	 * @param string $oauthCallback
 	 *
+	 * @param bool   $signInWithTwitter
+	 *
 	 * @return string
 	 */
-	public function getAuthorizationURL($oauthCallback = '')
+	public function getAuthorizationURL($oauthCallback = '', $signInWithTwitter = true)
 	{
 		$parameters = [];
 		if (!empty($oauthCallback)) {
@@ -81,7 +83,11 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			$this->Session->set('twitter.ouath_request_token', $ouathToken);
 			$this->Session->set('twitter.ouath_request_token_secret', array_get($response, 'oauth_token_secret'));
 			
-			return $this->url($this->config[ self::AUTHORIZE_ROUTE ], ['oauth_token' => $ouathToken]);
+			if ($signInWithTwitter) {
+				return $this->url($this->config[ self::AUTHENTICATE_ROUTE ], ['oauth_token' => $ouathToken]);
+			} else {
+				return $this->url($this->config[ self::AUTHORIZE_ROUTE ], ['oauth_token' => $ouathToken]);
+			}
 		} catch (TwitterOAuthException $Exception) {
 			$message = JsonDecoder::decode($Exception->getMessage(), true);
 			
