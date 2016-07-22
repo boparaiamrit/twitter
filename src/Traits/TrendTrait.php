@@ -1,15 +1,20 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait TrendTrait {
-
+	
 	/**
 	 * Returns the top 10 trending topics for a specific WOEID, if trending information is available for it.
 	 *
 	 * Parameters :
 	 * - id
 	 * - exclude
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getTrendsPlace($parameters = [])
 	{
@@ -20,21 +25,30 @@ Trait TrendTrait {
 
 		return $this->get('trends/place', $parameters);
 	}
-
+	
 	/**
 	 * Returns the locations that Twitter has trending topic information for.
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getTrendsAvailable($parameters = [])
 	{
 		return $this->get('trends/available', $parameters);
 	}
-
+	
 	/**
 	 * Returns the locations that Twitter has trending topic information for, closest to a specified location.
 	 *
 	 * Parameters :
 	 * - lat
 	 * - long
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getTrendsClosest($parameters = [])
 	{

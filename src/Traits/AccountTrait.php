@@ -1,29 +1,42 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
+/**
+ * Class AccountTrait
+ *
+ * @package Boparaiamrit\Twitter\Traits
+ */
 Trait AccountTrait {
-
+	
 	/**
 	 * Returns settings (including current trend, geo and sleep time information) for the authenticating user.
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getSettings($parameters = [])
 	{
 		return $this->get('account/settings', $parameters);
 	}
-
+	
 	/**
 	 * Returns an HTTP 200 OK response code and a representation of the requesting user if authentication was successful; returns a 401 status code and an error message if not. Use this method to test if supplied user credentials are valid.
 	 *
 	 * Parameters :
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getCredentials($parameters = [])
 	{
 		return $this->get('account/verify_credentials', $parameters);
 	}
-
+	
 	/**
 	 * Updates the authenticating user’s settings.
 	 *
@@ -34,6 +47,11 @@ Trait AccountTrait {
 	 * - end_sleep_time
 	 * - time_zone
 	 * - lang
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postSettings($parameters = [])
 	{
@@ -44,13 +62,18 @@ Trait AccountTrait {
 
 		return $this->post('account/settings', $parameters);
 	}
-
+	
 	/**
 	 * Sets which device Twitter delivers updates to for the authenticating user. Sending none as the device parameter will disable SMS updates.
 	 *
 	 * Parameters :
 	 * - device (sms|none)
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postSettingsDevice($parameters = [])
 	{
@@ -61,7 +84,7 @@ Trait AccountTrait {
 
 		return $this->post('account/update_delivery_device', $parameters);
 	}
-
+	
 	/**
 	 * Sets some values that users are able to set under the “Account” tab of their settings page. Only the parameters specified will be updated.
 	 *
@@ -72,6 +95,11 @@ Trait AccountTrait {
 	 * - description (0-160)
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postProfile($parameters = [])
 	{
@@ -82,7 +110,7 @@ Trait AccountTrait {
 
 		return $this->post('account/update_profile', $parameters);
 	}
-
+	
 	/**
 	 * Updates the authenticating user’s profile background image. This method can also be used to enable or disable the profile background image.
 	 *
@@ -92,6 +120,11 @@ Trait AccountTrait {
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
 	 * - use (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postBackground($parameters = [])
 	{
@@ -100,9 +133,9 @@ Trait AccountTrait {
 			throw new Exception('Parameter required missing : image, tile or use');
 		}
 
-		return $this->post('account/update_profile_background_image', $parameters, true);
+		return $this->post('account/update_profile_background_image', $parameters);
 	}
-
+	
 	/**
 	 * Updates the authenticating user’s profile image. Note that this method expects raw multipart data, not a URL to an image.
 	 *
@@ -110,6 +143,11 @@ Trait AccountTrait {
 	 * - image
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postProfileImage($parameters = [])
 	{
@@ -118,17 +156,21 @@ Trait AccountTrait {
 			throw new Exception('Parameter required missing : image');
 		}
 
-		return $this->post('account/update_profile_image', $parameters, true);
+		return $this->post('account/update_profile_image', $parameters);
 	}
-
+	
 	/**
 	 * Removes the uploaded profile banner for the authenticating user. Returns HTTP 200 upon success.
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function destroyUserBanner($parameters = [])
 	{
 		return $this->post('account/remove_profile_banner', $parameters);
 	}
-
+	
 	/**
 	 * Uploads a profile banner on behalf of the authenticating user. For best results, upload an profile_banner_url node in their Users objects. More information about sizing variations can be found in User Profile Images and Banners and GET users / profile_banner.
 	 *
@@ -138,6 +180,11 @@ Trait AccountTrait {
 	 * - height
 	 * - offset_left
 	 * - offset_top
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postUserBanner($parameters = [])
 	{

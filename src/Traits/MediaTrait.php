@@ -1,15 +1,20 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait MediaTrait {
-
+	
 	/**
 	 * Upload media (images) to Twitter, to use in a Tweet or Twitter-hosted Card.
 	 *
 	 * Parameters :
 	 * - media
 	 * - media_data
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function uploadMedia($parameters = [])
 	{
@@ -23,7 +28,7 @@ Trait MediaTrait {
 	            throw new Exception('You cannot use media and media_data at the same time');
 	        }
 
-		return $this->post('media/upload', $parameters, true);
+		return $this->post('media/upload', $parameters);
 	}
 
 }

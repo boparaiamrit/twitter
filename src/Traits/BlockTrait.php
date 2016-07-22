@@ -1,9 +1,9 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait BlockTrait {
-
+	
 	/**
 	 * Returns a collection of user objects that the authenticating user is blocking.
 	 *
@@ -11,24 +11,32 @@ Trait BlockTrait {
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
 	 * - cursor
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getBlocks($parameters = [])
 	{
 		return $this->get('blocks/list', $parameters);
 	}
-
+	
 	/**
 	 * Returns an array of numeric user ids the authenticating user is blocking.
 	 *
 	 * Parameters :
 	 * - stringify_ids (0|1)
 	 * - cursor
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getBlocksIds($parameters = [])
 	{
 		return $this->get('blocks/ids', $parameters);
 	}
-
+	
 	/**
 	 * Blocks the specified user from following the authenticating user. In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user). If a follow or friend relationship exists it is destroyed.
 	 *
@@ -37,6 +45,11 @@ Trait BlockTrait {
 	 * - user_id
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postBlock($parameters = [])
 	{
@@ -47,7 +60,7 @@ Trait BlockTrait {
 
 		return $this->post('blocks/create', $parameters);
 	}
-
+	
 	/**
 	 * Un-blocks the user specified in the ID parameter for the authenticating user. Returns the un-blocked user in the requested format when successful. If relationships existed before the block was instated, they will not be restored.
 	 *
@@ -56,6 +69,11 @@ Trait BlockTrait {
 	 * - user_id
 	 * - include_entities (0|1)
 	 * - skip_status (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function destroyBlock($parameters = [])
 	{

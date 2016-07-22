@@ -1,9 +1,9 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait FavoriteTrait {
-
+	
 	/**
 	 * Returns the 20 most recent Tweets favorited by the authenticating or specified user.
 	 *
@@ -14,18 +14,27 @@ Trait FavoriteTrait {
 	 * - since_id
 	 * - max_id
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getFavorites($parameters = [])
 	{
 		return $this->get('favorites/list', $parameters);
 	}
-
+	
 	/**
 	 * Un-favorites the status specified in the ID parameter as the authenticating user. Returns the un-favorited status in the requested format when successful.
 	 *
 	 * Parameters :
 	 * - id
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function destroyFavorite($parameters = [])
 	{
@@ -36,13 +45,18 @@ Trait FavoriteTrait {
 
 		return $this->post('favorites/destroy', $parameters);
 	}
-
+	
 	/**
 	 * Favorites the status specified in the ID parameter as the authenticating user. Returns the favorite status when successful.
 	 *
 	 * Parameters :
 	 * - id
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function postFavorite($parameters = [])
 	{

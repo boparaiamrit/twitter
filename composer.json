@@ -1,23 +1,27 @@
 {
-    "name": "thujohn/twitter",
-    "description": "Twitter API for Laravel",
-	"keywords": ["twitter", "laravel", "laravel4", "laravel5"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "thujohn",
-            "email": "jonathan.thuau@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "4.*|5.*",
-        "themattharris/tmhoauth": "0.8.4"
-    },
-    "autoload": {
-        "psr-0": {
-            "Thujohn\\Twitter": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+  "name": "boparaiamrit/twitter",
+  "description": "Twitter API for Laravel",
+  "keywords": [
+    "twitter",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "boparaiamrit",
+      "email": "boparaiamrit@gmail.com"
+    }
+  ],
+  "require": {
+    "laravel/framework": "5.2.*",
+    "nesbot/carbon": "~1.20",
+    "abraham/twitteroauth": "0.6.4",
+    "bugsnag/bugsnag-laravel":"^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Boparaiamrit\\Twitter\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
 }

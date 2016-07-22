@@ -1,9 +1,9 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait UserTrait {
-
+	
 	/**
 	 * Returns fully-hydrated user objects for up to 100 users per request, as specified by comma-separated values passed to the user_id and/or screen_name parameters.
 	 *
@@ -11,6 +11,11 @@ Trait UserTrait {
 	 * - user_id
 	 * - screen_name
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getUsersLookup($parameters = [])
 	{
@@ -21,7 +26,7 @@ Trait UserTrait {
 
 		return $this->get('users/lookup', $parameters);
 	}
-
+	
 	/**
 	 * Returns a variety of information about the user specified by the required user_id or screen_name parameter. The author’s most recent Tweet will be returned inline when possible.
 	 *
@@ -29,6 +34,11 @@ Trait UserTrait {
 	 * - user_id
 	 * - screen_name
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getUsers($parameters = [])
 	{
@@ -39,7 +49,7 @@ Trait UserTrait {
 
 		return $this->get('users/show', $parameters);
 	}
-
+	
 	/**
 	 * Provides a simple, relevance-based search interface to public user accounts on Twitter. Try querying by topical interest, full name, company name, location, or other criteria. Exact match searches are not supported.
 	 *
@@ -48,6 +58,11 @@ Trait UserTrait {
 	 * - page
 	 * - count
 	 * - include_entities (0|1)
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getUsersSearch($parameters = [])
 	{
@@ -58,25 +73,34 @@ Trait UserTrait {
 
 		return $this->get('users/search', $parameters);
 	}
-
+	
 	/**
 	 * Returns a map of the available size variations of the specified user’s profile banner. If the user has not uploaded a profile banner, a HTTP 404 will be served instead. This method can be used instead of string manipulation on the profile_banner_url returned in user objects as described in Profile Images and Banners.
 	 *
 	 * Parameters :
 	 * - user_id
 	 * - screen_name
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getUserBanner($parameters = [])
 	{
 		return $this->get('users/profile_banner', $parameters);
 	}
-
+	
 	/**
 	 * Mutes the user specified in the ID parameter for the authenticating user.
 	 *
 	 *  Parameters :
 	 * - screen_name
 	 * - user_id
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function muteUser($parameters = [])
 	{
@@ -87,13 +111,18 @@ Trait UserTrait {
 
 		return $this->post('mutes/users/create', $parameters);
 	}
-
+	
 	/**
 	 * Un-mutes the user specified in the ID parameter for the authenticating user.
 	 *
 	 *  Parameters :
 	 * - screen_name
 	 * - user_id
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function unmuteUser($parameters = [])
 	{
@@ -104,18 +133,22 @@ Trait UserTrait {
 
 		return $this->post('mutes/users/destroy', $parameters);
 	}
-
+	
 	/**
 	 * Returns an array of numeric user ids the authenticating user has muted.
 	 *
 	 *  Parameters :
 	 * - cursor
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function mutedUserIds($parameters = [])
 	{
 		return $this->get('mutes/users/ids', $parameters);
 	}
-
+	
 	/**
 	 * Returns an array of user objects the authenticating user has muted.
 	 *
@@ -123,36 +156,54 @@ Trait UserTrait {
 	 * - cursor
 	 * - include_entities
 	 * - skip_status
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function mutedUsers($parameters = [])
 	{
 		return $this->get('mutes/users/list', $parameters);
 	}
-
+	
 	/**
 	 * Access the users in a given category of the Twitter suggested user list.
 	 *
 	 * Parameters :
 	 * - lang
+	 *
+	 * @param       $slug
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getSuggesteds($slug, $parameters = [])
 	{
 		return $this->get('users/suggestions/'.$slug, $parameters);
 	}
-
+	
 	/**
 	 * Access to Twitter’s suggested user list. This returns the list of suggested user categories. The category can be used in GET users / suggestions / :slug to get the users in that category.
 	 *
 	 * Parameters :
 	 * - lang
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getSuggestions($parameters = [])
 	{
 		return $this->get('users/suggestions', $parameters);
 	}
-
+	
 	/**
 	 * Access the users in a given category of the Twitter suggested user list and return their most recent status if they are not a protected user.
+	 *
+	 * @param       $slug
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getSuggestedsMembers($slug, $parameters = [])
 	{

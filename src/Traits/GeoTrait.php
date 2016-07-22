@@ -1,17 +1,21 @@
-<?php namespace Thujohn\Twitter\Traits;
+<?php namespace Boparaiamrit\Twitter\Traits;
 
 use Exception;
 
 Trait GeoTrait {
-
+	
 	/**
 	 * Returns all the information about a known place.
+	 *
+	 * @param $id
+	 *
+	 * @return
 	 */
 	public function getGeo($id)
 	{
 		return $this->get('geo/id/'.$id);
 	}
-
+	
 	/**
 	 * Given a latitude and a longitude, searches for up to 20 places that can be used as a place_id when updating a status.
 	 *
@@ -22,6 +26,11 @@ Trait GeoTrait {
 	 * - granularity (poi|neighborhood|city|admin|country)
 	 * - max_results
 	 * - callback
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getGeoReverse($parameters = [])
 	{
@@ -32,7 +41,7 @@ Trait GeoTrait {
 
 		return $this->get('geo/reverse_geocode', $parameters);
 	}
-
+	
 	/**
 	 * Search for places that can be attached to a statuses/update. Given a latitude and a longitude pair, an IP address, or a name, this request will return a list of all the valid places that can be used as the place_id when updating a status.
 	 *
@@ -47,12 +56,16 @@ Trait GeoTrait {
 	 * - contained_within
 	 * - attribute:street_address
 	 * - callback
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
 	 */
 	public function getGeoSearch($parameters = [])
 	{
 		return $this->get('geo/search', $parameters);
 	}
-
+	
 	/**
 	 * Locates places near the given coordinates which are similar in name. Conceptually you would use this method to get a list of known places to choose from first. Then, if the desired place doesn't exist, make a request to POST geo/place to create a new one. The token contained in the response is the token needed to be able to create a new place.
 	 *
@@ -63,6 +76,11 @@ Trait GeoTrait {
 	 * - contained_within
 	 * - attribute:street_address
 	 * - callback
+	 *
+	 * @param array $parameters
+	 *
+	 * @return
+	 * @throws Exception
 	 */
 	public function getGeoSimilar($parameters = [])
 	{
