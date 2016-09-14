@@ -20,8 +20,9 @@ use Boparaiamrit\Twitter\Traits\UserTrait;
 use Bugsnag\Client;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Cache\Repository as Cache;
 use Illuminate\Config\Repository as Config;
-use Illuminate\Session\Store as SessionStore;
+use Illuminate\Session\Store as Session;
 
 class TwitterClient extends TwitterOAuth implements ITwitterClient
 {
@@ -31,9 +32,10 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 	
 	private $config;
 	private $Session;
+	private $Cache;
 	private $Logger;
 	
-	public function __construct(Config $Config, SessionStore $Session, Client $Logger)
+	public function __construct(Config $Config, Session $Session, Cache $Cache, Client $Logger)
 	{
 		if ($Config->get('twitter')) {
 			$this->config = $Config->get('twitter');
@@ -42,14 +44,20 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 		}
 		
 		$this->Session = $Session;
+		$this->Cache   = $Cache;
 		$this->Logger  = $Logger;
 		
 		$accessToken       = $this->config[ self::ACCESS_TOKEN ];
 		$accessTokenSecret = $this->config[ self::ACCESS_TOKEN_SECRET ];
 		
 		if ($Session->has('twitter.ouath_token') && $Session->has('twitter.ouath_token_secret')) {
-			$accessToken       = $this->Session->get('twitter.ouath_token');
-			$accessTokenSecret = $this->Session->get('twitter.ouath_token_secret');
+			$accessToken       = $Session->get('twitter.ouath_token');
+			$accessTokenSecret = $Session->get('twitter.ouath_token_secret');
+		}
+		
+		if ($Cache->has('twitter.ouath_token') && $Cache->has('twitter.ouath_token_secret')) {
+			$accessToken       = $Cache->get('twitter.ouath_token');
+			$accessTokenSecret = $Cache->get('twitter.ouath_token_secret');
 		}
 		
 		parent::__construct($this->config[ self::CONSUMER_KEY ], $this->config[ self::CONSUMER_SECRET ], $accessToken, $accessTokenSecret);
@@ -112,8 +120,9 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 	/**
 	 * @param string $ouathToken
 	 * @param string $oauthVerifier
+	 * @param bool   $store
 	 */
-	public function getAccessToken($ouathToken, $oauthVerifier)
+	public function getAccessToken($ouathToken, $oauthVerifier, $store = false)
 	{
 		$parameters = [];
 		if (!empty($oauthVerifier)) {
@@ -132,6 +141,11 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			
 			$this->Session->set('twitter.ouath_token', $ouathToken);
 			$this->Session->set('twitter.ouath_token_secret', $ouathTokenSecret);
+			
+			if ($store) {
+				$this->Cache->forever('twitter.ouath_token', $ouathToken);
+				$this->Cache->forever('twitter.ouath_token_secret', $ouathTokenSecret);
+			}
 			
 			// Reset Token
 			$this->setOauthToken($ouathToken, $ouathTokenSecret);

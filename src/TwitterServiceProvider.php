@@ -35,7 +35,7 @@ class TwitterServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->singleton('twitter', function ($app) {
-			return new TwitterClient($app['config'], $app['session.store'], $app['bugsnag']);
+			return new TwitterClient($app['config'], $app['session.store'], $app['cache.store'], $app['bugsnag']);
 		});
 	}
 	
