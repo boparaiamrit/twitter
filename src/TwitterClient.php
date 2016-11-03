@@ -128,8 +128,7 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			$this->setOauthToken($ouathToken, $this->Session->get('twitter.ouath_request_token_secret'));
 			
 			// Get new Token
-			$response = $this->oauth($this->config[ self::ACCESS_TOKEN_ROUTE ], $parameters);
-			
+			$response         = $this->oauth($this->config[ self::ACCESS_TOKEN_ROUTE ], $parameters);
 			$ouathToken       = array_get($response, 'oauth_token');
 			$ouathTokenSecret = array_get($response, 'oauth_token_secret');
 			
