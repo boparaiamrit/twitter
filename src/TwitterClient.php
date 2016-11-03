@@ -112,8 +112,11 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 	/**
 	 * @param string $ouathToken
 	 * @param string $oauthVerifier
+	 * @param bool   $saveToSettings
+	 *
+	 * @return bool
 	 */
-	public function getAccessToken($ouathToken, $oauthVerifier)
+	public function getAccessToken($ouathToken, $oauthVerifier, $saveToSettings = false)
 	{
 		$parameters = [];
 		if (!empty($oauthVerifier)) {
@@ -135,9 +138,19 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			
 			// Reset Token
 			$this->setOauthToken($ouathToken, $ouathTokenSecret);
+			
+			if ($saveToSettings) {
+				settings()->set('twitter.ouath_token', $ouathToken);
+				settings()->set('twitter.ouath_token_secret', $ouathTokenSecret);
+			}
+			
+			return true;
 		} catch (TwitterOAuthException $Exception) {
 			$this->Logger->notifyException($Exception);
+			
 		}
+		
+		return false;
 	}
 	
 	public function linkify($tweet)
@@ -254,6 +267,13 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			return json_decode($json, $assoc, 512, JSON_BIGINT_AS_STRING);
 		} else {
 			return json_decode($json, $assoc);
+		}
+	}
+	
+	public function setCustomerToken()
+	{
+		if (settings()->hasKey('twitter.ouath_token') && settings()->hasKey('twitter.ouath_token_secret')) {
+			$this->setOauthToken(settings('twitter.ouath_token'), settings('twitter.ouath_token_secret'));
 		}
 	}
 }
