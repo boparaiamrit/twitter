@@ -47,10 +47,18 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 		$accessToken       = $this->config[ self::ACCESS_TOKEN ];
 		$accessTokenSecret = $this->config[ self::ACCESS_TOKEN_SECRET ];
 		
-		if ($Session->has('twitter.ouath_token') && $Session->has('twitter.ouath_token_secret')) {
-			$accessToken       = $this->Session->get('twitter.ouath_token');
-			$accessTokenSecret = $this->Session->get('twitter.ouath_token_secret');
+		if (app()->runningInConsole()) {
+			if (settings()->hasKey('twitter.ouath_token') && settings()->hasKey('twitter.ouath_token_secret')) {
+				$accessToken       = settings('twitter.ouath_token');
+				$accessTokenSecret = settings('twitter.ouath_token_secret');
+			}
+		} else {
+			if ($Session->has('twitter.ouath_token') && $Session->has('twitter.ouath_token_secret')) {
+				$accessToken       = $this->Session->get('twitter.ouath_token');
+				$accessTokenSecret = $this->Session->get('twitter.ouath_token_secret');
+			}
 		}
+		
 		
 		parent::__construct($this->config[ self::CONSUMER_KEY ], $this->config[ self::CONSUMER_SECRET ], $accessToken, $accessTokenSecret);
 	}
@@ -266,13 +274,6 @@ class TwitterClient extends TwitterOAuth implements ITwitterClient
 			return json_decode($json, $assoc, 512, JSON_BIGINT_AS_STRING);
 		} else {
 			return json_decode($json, $assoc);
-		}
-	}
-	
-	public function setCustomerToken()
-	{
-		if (settings()->hasKey('twitter.ouath_token') && settings()->hasKey('twitter.ouath_token_secret')) {
-			$this->setOauthToken(settings('twitter.ouath_token'), settings('twitter.ouath_token_secret'));
 		}
 	}
 }
