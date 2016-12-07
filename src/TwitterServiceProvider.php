@@ -5,14 +5,6 @@ use Illuminate\Support\ServiceProvider;
 
 class TwitterServiceProvider extends ServiceProvider
 {
-	
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-	
 	/**
 	 * Bootstrap the application events.
 	 *
